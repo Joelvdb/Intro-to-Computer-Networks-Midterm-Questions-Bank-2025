@@ -23,6 +23,7 @@ const Footer = ({ repoUrl }) => {
           <Star size={18} />
           <span>Star Repo</span>
         </a>
+        
       </div>
       <p className="text-xs mt-4 opacity-50">Built with React & Tailwind</p>
     </footer>

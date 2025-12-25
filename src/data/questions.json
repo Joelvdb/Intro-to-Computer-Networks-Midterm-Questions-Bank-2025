@@ -5,6 +5,381 @@
     "question": "Suppose users share a 2 Mbps link. Each user transmits continuously at 1 Mbps when transmitting. When circuit switching is used, how many users can be supported?",
     "options": ["1 user", "2 users", "4 users", "Unlimited users"],
     "correct_indices": [1],
-    "explanation": "In circuit switching, a fixed portion of the link capacity is dedicated to each user. $2 Mbps / 1 Mbps = 2$ users."
+    "explanation": "In circuit switching, a fixed portion of the link capacity is dedicated to each user. 2 Mbps divided by 1 Mbps equals 2 users."
+  },
+  {
+    "id": "1b_1",
+    "chapter": "Chapter 1, R13",
+    "question": "In packet switching, why is there no queuing delay if two or fewer users transmit at the same time?",
+    "options": [
+      "Because the users use different frequencies.",
+      "Because the sum of their transmission rates (2 Mbps) does not exceed the link capacity (2 Mbps).",
+      "Because packet switching doesn't use buffers.",
+      "Because of high propagation speeds."
+    ],
+    "correct_indices": [1],
+    "explanation": "Queuing delay occurs when arrival rate is greater than output rate. If only 2 users are active, the arrival rate (2 Mbps) is equal to the link capacity (2 Mbps), meaning packets are sent as fast as they arrive."
+  },
+  {
+    "id": "1b_2",
+    "chapter": "Chapter 1, R13",
+    "question": "Why will there be a queuing delay if three users transmit at the same time in packet switching?",
+    "options": [
+      "Because the aggregate demand (3 Mbps) exceeds the link capacity (2 Mbps).",
+      "Because the router needs to verify the packets.",
+      "Because transmission rate drops with more users.",
+      "Because three is an odd number."
+    ],
+    "correct_indices": [0],
+    "explanation": "With 3 users transmitting, the input rate is 3 Mbps while the output rate is only 2 Mbps. The extra 1 Mbps of data must wait in the buffer, creating a queuing delay."
+  },
+  {
+    "id": "1c",
+    "chapter": "Chapter 1, R13",
+    "question": "Find the probability that a given user is transmitting if they are active only 20% of the time.",
+    "options": ["0.8", "0.5", "0.2", "0.02"],
+    "correct_indices": [2],
+    "explanation": "The probability of being active is the fraction of time the user transmits: 20/100 = 0.2."
+  },
+  {
+    "id": "1d_1",
+    "chapter": "Chapter 1, R13",
+    "question": "Suppose there are three users (each active 20% of the time). Find the probability that all three users are transmitting simultaneously.",
+    "options": ["0.6", "0.06", "0.008", "0.1"],
+    "correct_indices": [2],
+    "explanation": "Assuming independent users, the probability is 0.2 multiplied by 0.2 multiplied by 0.2, which equals 0.008."
+  },
+  {
+    "id": "1d_2",
+    "chapter": "Chapter 1, R13",
+    "question": "Find the fraction of time during which the queue grows if there are three users on a 2 Mbps link (each user transmits at 1 Mbps).",
+    "options": ["0.2", "0.8", "0.008", "0.6"],
+    "correct_indices": [2],
+    "explanation": "The queue grows when the arrival rate exceeds 2 Mbps. With 1 Mbps users, this only happens when all 3 users are active simultaneously (0.2 cubed = 0.008)."
+  },
+  {
+    "id": "2a",
+    "chapter": "Chapter 1, R18",
+    "question": "How long does it take a packet to propagate over a link of distance 2,500 km with a propagation speed of 2.5E8 m/s?",
+    "options": ["1 ms", "10 ms", "100 ms", "25 ms"],
+    "correct_indices": [1],
+    "explanation": "Propagation delay = Distance divided by Speed. 2,500,000 meters divided by 250,000,000 meters per second equals 0.01 seconds (10 ms)."
+  },
+  {
+    "id": "2b",
+    "chapter": "Chapter 1, R18",
+    "question": "In the general formula for propagation delay (d/s), does the delay depend on packet length (L) or transmission rate (R)?",
+    "options": [
+      "Depends on both L and R.",
+      "Depends on L but not R.",
+      "Depends on R but not L.",
+      "Depends on neither L nor R."
+    ],
+    "correct_indices": [3],
+    "explanation": "Propagation delay is strictly the time it takes for a bit to travel the distance of the link. It is independent of how many bits are in a packet or how fast those bits are sent."
+  },
+  {
+    "id": "3",
+    "chapter": "Chapter 2, R5",
+    "question": "What information is used by a process on one host to identify a process running on another host?",
+    "options": [
+      "The MAC address.",
+      "The IP address of the destination host and the port number of the destination process.",
+      "The URL and the browser version.",
+      "The transmission rate and sequence number."
+    ],
+    "correct_indices": [1],
+    "explanation": "The IP address identifies the destination machine on the network, and the port number identifies the specific socket/process on that machine."
+  },
+  {
+    "id": "4",
+    "chapter": "Chapter 2, R11",
+    "question": "Why do HTTP, SMTP, and POP3 run on top of TCP rather than on UDP?",
+    "options": [
+      "TCP is faster than UDP.",
+      "UDP cannot handle web data.",
+      "These applications require reliable, in-order data transfer.",
+      "TCP uses less energy."
+    ],
+    "correct_indices": [2],
+    "explanation": "HTTP and Email protocols cannot tolerate data loss or corruption. TCP provides reliability through ACKs and retransmissions, whereas UDP is 'best-effort' and unreliable."
+  },
+  {
+    "id": "5",
+    "chapter": "Chapter 2, R13",
+    "question": "Will Web caching reduce the delay for all objects requested by a user?",
+    "options": [
+      "Yes, for all objects.",
+      "Only for objects already stored in the cache (cache hits).",
+      "Only for video files.",
+      "No, only for text-based HTML files."
+    ],
+    "correct_indices": [1],
+    "explanation": "Web caching only reduces delay if the requested object is already in the cache. If it is a 'miss', the object must be fetched from the origin server, resulting in no delay reduction."
+  },
+  {
+    "id": "6",
+    "chapter": "Chapter 3, R8",
+    "question": "A Web server on Host C (port 80) is receiving persistent requests from Hosts A and B. Are they sent through the same socket at Host C? Do they both have port 80?",
+    "options": [
+      "Same socket; same port 80.",
+      "Different sockets; different ports.",
+      "Different sockets; both use port 80 at Host C.",
+      "Same socket; different ports."
+    ],
+    "correct_indices": [2],
+    "explanation": "TCP sockets are defined by a 4-tuple (Src IP, Src Port, Dst IP, Dst Port). Since the Source IPs of A and B are different, they correspond to different sockets at Host C, even though both target port 80."
+  },
+  {
+    "id": "7a",
+    "chapter": "Chapter 3, R14",
+    "question": "True or False: Host B will not send ACKs if it has no data to send to Host A (no piggybacking).",
+    "options": ["True", "False"],
+    "correct_indices": [1],
+    "explanation": "False. TCP sends an acknowledgment segment even if there is no data payload to accompany it."
+  },
+  {
+    "id": "7b",
+    "chapter": "Chapter 3, R14",
+    "question": "True or False: The size of the TCP rwnd never changes throughout the duration of the connection.",
+    "options": ["True", "False"],
+    "correct_indices": [1],
+    "explanation": "False. The receive window (rwnd) reflects the current spare room in the receiver's buffer, which changes dynamically."
+  },
+  {
+    "id": "7c",
+    "chapter": "Chapter 3, R14",
+    "question": "True or False: The number of unacknowledged bytes that A sends cannot exceed the size of the receive buffer.",
+    "options": ["True", "False"],
+    "correct_indices": [0],
+    "explanation": "True. TCP flow control ensures that the sender does not overflow the receiver's buffer capacity."
+  },
+  {
+    "id": "7d",
+    "chapter": "Chapter 3, R14",
+    "question": "True or False: If the sequence number for a segment is m, then the sequence number for the subsequent segment will necessarily be m + 1.",
+    "options": ["True", "False"],
+    "correct_indices": [1],
+    "explanation": "False. Sequence numbers in TCP are based on byte counts. If a segment has 500 bytes, the next sequence number would be m + 500."
+  },
+  {
+    "id": "7e",
+    "chapter": "Chapter 3, R14",
+    "question": "True or False: The TCP segment has a field in its header for rwnd.",
+    "options": ["True", "False"],
+    "correct_indices": [0],
+    "explanation": "True. The 'Window' field in the TCP header is used by the receiver to inform the sender of its current rwnd."
+  },
+  {
+    "id": "7f",
+    "chapter": "Chapter 3, R14",
+    "question": "True or False: If the last SampleRTT is 1 sec, the TimeoutInterval will necessarily be greater than or equal to 1 sec.",
+    "options": ["True", "False"],
+    "correct_indices": [0],
+    "explanation": "True. The formula for TimeoutInterval (EstimatedRTT + 4 times DevRTT) is designed to be larger than any single SampleRTT to avoid unnecessary retransmissions."
+  },
+  {
+    "id": "7g",
+    "chapter": "Chapter 3, R14",
+    "question": "True or False: If Host A sends a segment with seq 38 and 4 bytes of data, the acknowledgment number in this segment is necessarily 42.",
+    "options": ["True", "False"],
+    "correct_indices": [1],
+    "explanation": "False. The ACK number in a segment from A to B refers to the next byte A expects to receive from B, not the count of bytes A is currently sending."
+  },
+  {
+    "id": "8",
+    "chapter": "Chapter 3, P43",
+    "question": "What would prevent Host A (capable of sending at 10R) from continuously passing data to its socket at that rate into a link of rate R?",
+    "options": [
+      "The receive buffer size.",
+      "The propagation delay.",
+      "TCP congestion control sensing the link bottleneck (R).",
+      "The sender's hardware limit."
+    ],
+    "correct_indices": [2],
+    "explanation": "Even with a large buffer, the physical link rate is R. TCP's congestion control mechanism will detect that the network cannot handle 10R and will throttle the sender to match the bottleneck rate R."
+  },
+  {
+    "id": "9",
+    "chapter": "Chapter 4, R25",
+    "question": "If an application generates 40-byte chunks encapsulated in TCP (20B) and IP (20B) headers, what is the overhead percentage?",
+    "options": ["20%", "40%", "50%", "80%"],
+    "correct_indices": [2],
+    "explanation": "Total datagram = 40 (Data) + 20 (TCP) + 20 (IP) = 80 bytes. Overhead (Headers) = 40 bytes. 40 divided by 80 equals 50%."
+  },
+  {
+    "id": "10",
+    "chapter": "Chapter 4, P12",
+    "question": "Using the prefix table (1 -> Int 0, 10 -> Int 1, 111 -> Int 2, other -> Int 3), which interface handles the address range 128 through 191?",
+    "options": ["Interface 0", "Interface 1", "Interface 2", "Interface 3"],
+    "correct_indices": [1],
+    "explanation": "128 is 10000000 and 191 is 10111111. Both start with '10'. While prefix '1' (Interface 0) also matches, '10' (Interface 1) is a longer match and thus takes precedence."
+  },
+  {
+    "id": "W1.1",
+    "chapter": "Wooclap W1.1",
+    "question": "Which of the following devices can be found in the Internet core?",
+    "options": ["Routers", "Data Centers", "Servers", "Mobile Phones"],
+    "correct_indices": [0],
+    "explanation": "The internet core is primarily composed of high-speed routers forwarding packets."
+  },
+  {
+    "id": "W1.2",
+    "chapter": "Wooclap W1.2",
+    "question": "A computer's network connection has a bandwidth of R = 1.467 * 10^6 bits/sec, and the computer needs to transmit a packet of size L = 1580 bits. How long will it take?",
+    "options": [
+      "1 millisecond",
+      "1000 packets per second",
+      "2317 bits^2/sec",
+      "It depends on the context"
+    ],
+    "correct_indices": [3],
+    "explanation": "While L/R is approximately 1.07ms, the total time to transmit a packet in a network context often includes other delays (queuing, propagation, processing), making it context-dependent."
+  },
+  {
+    "id": "W2.1",
+    "chapter": "Wooclap W2.1",
+    "question": "Two computers (Israel and NZ) are connected via optical fiber. What is the main cause of delay?",
+    "options": ["Transmission", "Propagation", "Processing", "Queuing"],
+    "correct_indices": [1],
+    "explanation": "Given the massive physical distance, propagation delay (speed of light in glass over thousands of km) is the dominant factor."
+  },
+  {
+    "id": "W2.2",
+    "chapter": "Wooclap W2.2",
+    "question": "A message is split into 3 packets. What does a router do when it receives the last bit of the first packet?",
+    "options": [
+      "Delete it",
+      "Check the packet for errors and then forward it",
+      "Wait until it gets all 3 packets and then forward them",
+      "Crash"
+    ],
+    "correct_indices": [1],
+    "explanation": "Routers use store-and-forward switching at the packet level. They forward each individual packet once it is fully received and checked, without waiting for the entire multi-packet message."
+  },
+  {
+    "id": "W3.1",
+    "chapter": "Wooclap W3.1",
+    "question": "What is the WORST thing that can happen to my connection when I download a file?",
+    "options": [
+      "Data is corrupted",
+      "Bandwidth constantly changes",
+      "All packets are delayed",
+      "Some packets are delayed and some are not"
+    ],
+    "correct_indices": [0],
+    "explanation": "Data corruption ruins the integrity of the file content, whereas delays or bandwidth changes only affect the speed of delivery."
+  },
+  {
+    "id": "W3.2",
+    "chapter": "Wooclap W3.2",
+    "question": "Which layer is responsible for routing file data to the correct web browser instance on a host?",
+    "options": [
+      "Link Layer",
+      "Transport Layer",
+      "Application Layer",
+      "Browser Layer"
+    ],
+    "correct_indices": [1],
+    "explanation": "The Transport Layer (via port numbers) is responsible for demultiplexing data to the correct socket/process on the host."
+  },
+  {
+    "id": "W4.1",
+    "chapter": "Wooclap W4.1",
+    "question": "Which of the following is NOT improved by adding a local web proxy server?",
+    "options": [
+      "Bandwidth availability on the local network",
+      "Bandwidth availability from Internet to local network",
+      "Bandwidth availability from local network to Internet",
+      "Load on remote web servers"
+    ],
+    "correct_indices": [0],
+    "explanation": "A local proxy increases traffic on the internal local network to serve cached data; it improves external link availability but not local network bandwidth availability."
+  },
+  {
+    "id": "W4.2",
+    "chapter": "Wooclap W4.2",
+    "question": "Which transport protocol does DNS usually use, and why?",
+    "options": [
+      "TCP because it is reliable.",
+      "UDP because there is no need for connection setup.",
+      "HTTP because it is easy.",
+      "FTP for large zone transfers."
+    ],
+    "correct_indices": [1],
+    "explanation": "DNS uses UDP for quick queries to avoid the overhead of a 3-way TCP handshake."
+  },
+  {
+    "id": "W5.1",
+    "chapter": "Wooclap W5.1",
+    "question": "Which value can the OS select for a TCP source port? (multiple correct)",
+    "options": ["80", "800", "8000", "80000"],
+    "correct_indices": [0, 1, 2],
+    "explanation": "Ports are 16-bit values (0-65535). 80, 800, and 8000 are all valid. 80000 is out of bounds."
+  },
+  {
+    "id": "W5.2",
+    "chapter": "Wooclap W5.2",
+    "question": "Which of the following features is NOT required for reliable data transfer?",
+    "options": [
+      "Sequence numbers",
+      "Port numbers",
+      "Acknowledgment packets (acks)",
+      "Timeouts"
+    ],
+    "correct_indices": [1],
+    "explanation": "Port numbers are used for multiplexing/demultiplexing, not specifically for ensuring the reliability of the data stream itself."
+  },
+  {
+    "id": "W6.1",
+    "chapter": "Wooclap W6.1",
+    "question": "In a Selective Repeat connection, the receiver did not get data for a long time. How will it react?",
+    "options": [
+      "The receiver will do nothing",
+      "The receiver will terminate the connection",
+      "The receiver will retransmit all messages",
+      "The receiver will retransmit only the last message"
+    ],
+    "correct_indices": [0],
+    "explanation": "Reliability logic (timeouts/retransmissions) is handled by the sender. The receiver is passive and only reacts to incoming segments."
+  },
+  {
+    "id": "W6.2",
+    "chapter": "Wooclap W6.2",
+    "question": "In a Go-Back-N connection, the receiver got packets #1, #2, #3, and then receives #5. How will it react?",
+    "options": [
+      "Pass #5 to the application.",
+      "Discard packet #5.",
+      "Save #5 in memory.",
+      "Request #4 explicitly."
+    ],
+    "correct_indices": [1],
+    "explanation": "GBN receivers only accept packets in sequence. Since #4 is missing, #5 is discarded and the receiver re-acknowledges #3."
+  },
+  {
+    "id": "W7.1",
+    "chapter": "Wooclap W7.1",
+    "question": "In an active TCP connection, the sender receives two identical ACKs. What happens to the receive window?",
+    "options": [
+      "The receive window is doubled",
+      "The receive window is increased by one MSS",
+      "The receive window is halved",
+      "The receive window is not modified"
+    ],
+    "correct_indices": [3],
+    "explanation": "Duplicate ACKs trigger congestion control responses (like fast retransmit) but do not change the 'receive window' (rwnd), which is controlled by the receiver's buffer space."
+  },
+  {
+    "id": "W7.2",
+    "chapter": "Wooclap W7.2",
+    "question": "When does the router update the forwarding table?",
+    "options": [
+      "Every time it receives a packet.",
+      "The table never changes.",
+      "Every time it runs the routing algorithm.",
+      "After 60 seconds of no data."
+    ],
+    "correct_indices": [2],
+    "explanation": "The forwarding table is derived from the routing table, which is updated whenever the routing algorithm (control plane) recalculates paths."
   }
 ]

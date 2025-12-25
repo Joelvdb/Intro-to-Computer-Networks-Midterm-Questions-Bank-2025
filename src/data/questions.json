@@ -1,0 +1,10 @@
+[
+  {
+    "id": "1a",
+    "chapter": "Chapter 1, R13",
+    "question": "Suppose users share a 2 Mbps link. Each user transmits continuously at 1 Mbps when transmitting. When circuit switching is used, how many users can be supported?",
+    "options": ["1 user", "2 users", "4 users", "Unlimited users"],
+    "correct_indices": [1],
+    "explanation": "In circuit switching, a fixed portion of the link capacity is dedicated to each user. $2 Mbps / 1 Mbps = 2$ users."
+  }
+]

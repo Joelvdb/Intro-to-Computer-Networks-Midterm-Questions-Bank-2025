@@ -133,7 +133,7 @@
   {
     "id": "7a",
     "chapter": "Chapter 3, R14",
-    "question": "True or False: Host B will not send ACKs if it has no data to send to Host A (no piggybacking).",
+    "question": "Host A is sending Host B a large file over a TCP connection. Assume Host B has no data to send Host A. Host B will not send acknowledgments to Host A because Host B cannot piggyback the acknowledgments on data.",
     "options": ["True", "False"],
     "correct_indices": [1],
     "explanation": "False. TCP sends an acknowledgment segment even if there is no data payload to accompany it."

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, MessageCircle, ArrowRight } from 'lucide-react';
 
 const Feedback = ({ isCorrect, explanation, onNext, onReport, onCopy }) => {

@@ -84,7 +84,6 @@ export default function Quiz() {
   }, [id]);
 
   const currentQuestion = questions[currentIndex];
-  const repoUrl = "https://github.com/Joelvdb/Intro-to-Computer-Networks-Midterm-Questions-Bank-2025";
 
   const handleOptionToggle = (index) => {
     if (isAnswered) return;
@@ -142,12 +141,7 @@ export default function Quiz() {
     setShowEndScreen(false);
   };
 
-  const handleReport = () => {
-    const phoneNumber = "0527214041";
-    const text = `Report Mistake: Question ID ${currentQuestion.id}\nI found a mistake in question ${currentQuestion.id}.`;
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`;
-    window.open(whatsappUrl, '_blank');
-  };
+
 
   const handleCopy = () => {
     const correctOptions = currentQuestion.correct_indices.map(i => currentQuestion.options[i]).join(", ");
@@ -264,7 +258,6 @@ export default function Quiz() {
               score={score} 
               totalQuestions={questions.length} 
               onRestart={handleRestart}
-              repoUrl={repoUrl}
               t={t}
             />
           ) : (
@@ -283,7 +276,6 @@ export default function Quiz() {
                   isCorrect={isCorrect}
                   explanation={currentQuestion.explanation}
                   onNext={handleNext}
-                  onReport={handleReport}
                   onCopy={handleCopy}
                   t={t}
                   language={language}
@@ -293,7 +285,7 @@ export default function Quiz() {
           )}
         </main>
 
-        <Footer repoUrl={repoUrl} />
+        <Footer />
       </div>
     </div>
   );

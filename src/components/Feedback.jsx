@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, MessageCircle, ArrowRight } from 'lucide-react';
 
-const Feedback = ({ isCorrect, explanation, onNext, onReport, onCopy }) => {
+const Feedback = ({ isCorrect, explanation, onNext, onCopy, t, language }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -16,7 +16,7 @@ const Feedback = ({ isCorrect, explanation, onNext, onReport, onCopy }) => {
       <div className="flex items-center gap-2 mb-3">
         <div className={`w-2 h-2 rounded-full ${isCorrect ? 'bg-green-400' : 'bg-red-400'}`} />
         <h3 className={`text-lg font-bold ${isCorrect ? 'text-green-400' : 'text-red-400'}`}>
-            {isCorrect ? 'Correct!' : 'Incorrect'}
+            {isCorrect ? t('quiz.correct') : t('quiz.incorrect')}
         </h3>
       </div>
       
@@ -28,13 +28,7 @@ const Feedback = ({ isCorrect, explanation, onNext, onReport, onCopy }) => {
             onClick={onCopy}
             className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-sm text-gray-300 transition-colors border border-white/10"
           >
-            <Copy size={16} /> <span className="hidden sm:inline">Copy</span>
-          </button>
-          <button
-            onClick={onReport}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500/10 hover:bg-green-500/20 text-sm text-green-400 transition-colors border border-green-500/20"
-          >
-            <MessageCircle size={16} /> <span className="hidden sm:inline">WhatsApp</span>
+            <Copy size={16} /> <span className="hidden sm:inline">{t('quiz.copy')}</span>
           </button>
         </div>
         
@@ -42,7 +36,7 @@ const Feedback = ({ isCorrect, explanation, onNext, onReport, onCopy }) => {
           onClick={onNext}
           className="flex items-center gap-2 px-6 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-colors shadow-lg shadow-indigo-500/20"
         >
-          Next <ArrowRight size={18} />
+          {t('quiz.next')} <ArrowRight size={18} className={language === 'he' ? 'rotate-180' : ''} />
         </button>
       </div>
     </motion.div>

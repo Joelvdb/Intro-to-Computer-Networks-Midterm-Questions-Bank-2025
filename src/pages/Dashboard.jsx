@@ -6,6 +6,8 @@ import { db } from '../firebase';
 import { collection, query, where, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { BrainCircuit, Plus, FileText, LogOut, Trash2, Edit2, X, AlertTriangle, Globe } from 'lucide-react';
 
+import Footer from '../components/Footer';
+
 export default function Dashboard() {
   const { currentUser, logout } = useAuth();
   const { t, toggleLanguage, language } = useLanguage();
@@ -97,9 +99,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white font-sans">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 flex flex-col min-h-screen">
         {/* Header */}
-        <header className="flex items-center justify-between mb-12">
+        <header className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
           <div className="flex items-center gap-3">
             <div className="p-2 bg-indigo-500/20 rounded-lg border border-indigo-500/30">
               <BrainCircuit className="text-indigo-400" size={32} />
@@ -131,7 +133,7 @@ export default function Dashboard() {
         </header>
 
         {/* Main Content */}
-        <main>
+        <main className="flex-grow">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-bold">{t('dashboard.yourQuizzes')}</h2>
             <Link 
@@ -275,6 +277,7 @@ export default function Dashboard() {
           </div>
         )}
 
+        <Footer />
       </div>
     </div>
   );

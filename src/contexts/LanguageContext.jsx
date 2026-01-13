@@ -8,9 +8,10 @@ export function useLanguage() {
 
 const translations = {
   en: {
-    appName: "Exam Mixer",
+    appName: "Turbo Exam",
     login: {
-      signInGoogle: "Sign in with Google"
+      signInGoogle: "Sign in with Google",
+      subtitle: "Practice questions for any exam"
     },
     dashboard: {
       title: "Dashboard",
@@ -18,8 +19,8 @@ const translations = {
       newQuiz: "New Quiz from PDF",
       official: "Official",
       custom: "Custom",
-      midtermTitle: "Midterm Questions Bank",
-      midtermDesc: "The standard set of questions for the Computer Networks midterm.",
+      midtermTitle: "Example Quiz",
+      midtermDesc: "A sample set of questions to demonstrate the app features.",
       generatedFrom: "Generated from",
       loading: "Loading your quizzes...",
       deleteTitle: "Delete Quiz?",
@@ -60,12 +61,17 @@ const translations = {
       restart: "Restart Quiz",
       score: "Your Score",
       completed: "Quiz Completed!"
+    },
+    footer: {
+      buyCoffee: "Buy me a coffee",
+      builtWith: "Built with React & Tailwind"
     }
   },
   he: {
     appName: "מערבל מבחנים",
     login: {
-      signInGoogle: "התחבר עם Google"
+      signInGoogle: "התחבר עם Google",
+      subtitle: "תרגול שאלות לכל סוגי המבחנים"
     },
     dashboard: {
       title: "לוח בקרה",
@@ -73,8 +79,8 @@ const translations = {
       newQuiz: "מבחן חדש מ-PDF",
       official: "רשמי",
       custom: "מותאם אישית",
-      midtermTitle: "מאגר שאלות אמצע סמסטר",
-      midtermDesc: "ערכת השאלות הרשמית למבחן האמצע ברשתות מחשבים.",
+      midtermTitle: "מבחן לדוגמה",
+      midtermDesc: "ערכת שאלות לדוגמה להדגמת יכולות האפליקציה.",
       generatedFrom: "נוצר מתוך",
       loading: "טוען מבחנים...",
       deleteTitle: "מחיקת מבחן?",
@@ -115,6 +121,10 @@ const translations = {
       restart: "התחל מחדש",
       score: "הציון שלך",
       completed: "המבחן הושלם!"
+    },
+    footer: {
+      buyCoffee: "קנה לי קפה",
+      builtWith: "נבנה באמצעות React & Tailwind"
     }
   }
 };

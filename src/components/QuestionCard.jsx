@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 
-const QuestionCard = ({ question, onOptionToggle, selectedOptions, isAnswered, onSubmit }) => {
+const QuestionCard = ({ question, onOptionToggle, selectedOptions, isAnswered, onSubmit, t }) => {
   return (
     <div className="w-full max-w-2xl mx-auto">
       <motion.div
@@ -14,7 +14,7 @@ const QuestionCard = ({ question, onOptionToggle, selectedOptions, isAnswered, o
             <h2 className="text-sm font-medium text-indigo-300 uppercase tracking-wider">{question.chapter}</h2>
             <span className="text-xs text-gray-400">ID: {question.id}</span>
         </div>
-        <p className="text-xl text-white font-medium mb-8 leading-relaxed">{question.question}</p>
+        <p className="text-xl text-white font-medium mb-8 leading-relaxed" dir="auto">{question.question}</p>
 
         <div className="space-y-3 mb-6">
           {question.options.map((option, index) => {
@@ -38,10 +38,10 @@ const QuestionCard = ({ question, onOptionToggle, selectedOptions, isAnswered, o
                 key={index}
                 onClick={() => !isAnswered && onOptionToggle(index)}
                 disabled={isAnswered}
-                className={`w-full text-left p-4 rounded-xl border transition-all duration-200 flex justify-between items-center ${buttonStyle}`}
+                className={`w-full text-start p-4 rounded-xl border transition-all duration-200 flex justify-between items-center gap-4 ${buttonStyle}`}
               >
-                <span>{option}</span>
-                {isSelected && !isAnswered && <div className="w-3 h-3 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)]" />}
+                <span dir="auto" className="flex-grow">{option}</span>
+                {isSelected && !isAnswered && <div className="w-3 h-3 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(129,140,248,0.8)] flex-shrink-0" />}
               </button>
             );
           })}
@@ -54,7 +54,7 @@ const QuestionCard = ({ question, onOptionToggle, selectedOptions, isAnswered, o
             onClick={onSubmit}
             className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-lg shadow-lg shadow-indigo-500/20 transition-all flex items-center justify-center gap-2"
           >
-            <CheckCircle2 size={20} /> Submit Answer
+            <CheckCircle2 size={20} /> {t('quiz.submit')}
           </motion.button>
         )}
       </motion.div>

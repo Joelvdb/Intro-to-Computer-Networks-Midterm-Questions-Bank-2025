@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
-import { Github, RefreshCw, Home } from 'lucide-react';
+import { RefreshCw, Home } from 'lucide-react';
 
-const EndScreen = ({ score, totalQuestions, onRestart, repoUrl, t }) => {
+const EndScreen = ({ score, totalQuestions, onRestart, t }) => {
   useEffect(() => {
     const duration = 3 * 1000;
     const animationEnd = Date.now() + duration;
@@ -58,14 +58,7 @@ const EndScreen = ({ score, totalQuestions, onRestart, repoUrl, t }) => {
           <Home size={20} /> {t('quiz.return')}
         </button>
 
-        <a
-          href={repoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition-colors shadow-lg shadow-indigo-500/20"
-        >
-          <Github size={20} /> Star on GitHub
-        </a>
+
       </div>
     </div>
   );

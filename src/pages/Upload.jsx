@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
-import { db } from '../firebase';
+import { db, functions } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { httpsCallable } from 'firebase/functions';
 import { BrainCircuit, Upload as UploadIcon, Loader2, AlertCircle, FileText, Globe } from 'lucide-react';
 
 export default function Upload() {
@@ -17,6 +17,34 @@ export default function Upload() {
   const [status, setStatus] = useState("");
   const [error, setError] = useState("");
 
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const droppedFile = e.dataTransfer.files[0];
+      if (droppedFile.type === "application/pdf") {
+        setFile(droppedFile);
+        setTitle(droppedFile.name.replace('.pdf', ''));
+        setError("");
+      } else {
+        setError(t('upload.fileType'));
+      }
+    }
+  };
+
   const handleFileChange = (e) => {
     if (e.target.files[0]) {
       const selectedFile = e.target.files[0];
@@ -26,53 +54,24 @@ export default function Upload() {
     }
   };
 
-  const fileToGenerativePart = async (file) => {
-    const base64EncodedDataPromise = new Promise((resolve) => {
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result.split(',')[1]);
       reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = error => reject(error);
     });
-    return {
-      inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
-    };
   };
 
-  const generateQuestions = async (file) => {
-    const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.5-flash-lite",
-      generationConfig: {
-        temperature: 0.1
-      }
-    });
-
-    const prompt = `
-      You are an expert exam creator. Analyze the attached PDF document and extract all multiple choice questions from it.
-      Return ONLY a valid JSON array of objects. Do not include markdown formatting (like \`\`\`json).
-      Do not change any question or answer, be strict about it.
-      The questions you will get can be in english or in hebrew. If the question is in hebrew, make sure to keep it in hebrew. with the same text.
-      dont invent any questions or answers.
-      In the PDF document, answer for each question is always the first choise! do not change it.
-      Each object must have this structure:
-      {
-        "id": number,
-        "question": "string",
-        "options": ["string", "string", ...],
-        "correct_indices": [number], // 0-based indices of correct options
-        "explanation": "string" // brief explanation of the answer
-      }
-    `;
-
-    const pdfPart = await fileToGenerativePart(file);
-    const result = await model.generateContent([prompt, pdfPart]);
-    const response = await result.response;
-    const textResponse = response.text();
-    console.log("Raw Gemini Response:", textResponse);
+  const generateQuestions = async (file, title) => {
+    const fileBase64 = await fileToBase64(file);
+    const generateQuizFn = httpsCallable(functions, 'generateQuiz');
     
-    // Clean up potential markdown formatting
-    const cleanJson = textResponse.replace(/```json/g, '').replace(/```/g, '').trim();
-    console.log("Cleaned JSON:", cleanJson);
-    return JSON.parse(cleanJson);
+    const result = await generateQuizFn({ 
+      fileBase64,
+      title: title || file.name.replace('.pdf', '')
+    });
+    return result.data.quizId;
   };
 
   const handleUpload = async () => {
@@ -83,16 +82,11 @@ export default function Upload() {
     
     try {
       setStatus(t('upload.uploading'));
-      const questions = await generateQuestions(file);
+      // The backend now handles generation AND saving to Firestore
+      const quizId = await generateQuestions(file, title);
       
       setStatus(t('upload.saving'));
-      await addDoc(collection(db, "quizzes"), {
-        userId: currentUser.uid,
-        title: title || file.name.replace('.pdf', ''),
-        fileName: file.name,
-        questions: questions,
-        createdAt: serverTimestamp()
-      });
+      // No need to write to DB here anymore
 
       navigate('/dashboard');
     } catch (err) {
@@ -107,6 +101,7 @@ export default function Upload() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white font-sans flex items-center justify-center p-4">
       
+      {/* ... (Language Toggle) ... */}
       <button 
         onClick={toggleLanguage}
         className="absolute top-6 right-6 p-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-gray-300 hover:text-white flex items-center gap-2"
@@ -125,7 +120,16 @@ export default function Upload() {
         </div>
 
         <div className="space-y-6">
-          <div className="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-indigo-500/50 transition-colors bg-white/5">
+          <div 
+            className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors ${
+              isDragging 
+                ? 'border-indigo-500 bg-indigo-500/10' 
+                : 'border-white/20 hover:border-indigo-500/50 bg-white/5'
+            }`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
             <input 
               type="file" 
               accept=".pdf" 
@@ -133,8 +137,8 @@ export default function Upload() {
               className="hidden" 
               id="file-upload"
             />
-            <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center gap-4">
-              <div className="p-4 bg-indigo-500/20 rounded-full text-indigo-400">
+            <label htmlFor="file-upload" className="cursor-pointer flex flex-col items-center gap-4 w-full h-full">
+              <div className={`p-4 rounded-full transition-colors ${isDragging ? 'bg-indigo-500 text-white' : 'bg-indigo-500/20 text-indigo-400'}`}>
                 <UploadIcon size={32} />
               </div>
               <div>
